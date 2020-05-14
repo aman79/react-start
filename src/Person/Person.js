@@ -9,3 +9,6 @@ const Person = (props) => {
 };
 
 export default Person;
+
+// its good practice to create stateless component or dump componet or presentational component
+//bcoz they out external data
