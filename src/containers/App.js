@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person';
-import ErrrorBoundary from './ErrorBoundary/ErrrorBoundary';
+//import ErrrorBoundary from '../ErrorBoundary/ErrrorBoundary';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 class App extends Component {
 	//State is managed inside the component
 	//props is managed outside of the component
 
+	constructor(props) {
+		super(props);
+		console.log('App.js [Constructor]');
+	}
 	state = {
 		persons: [
 			{ id: 'jjhdj', name: 'Max', age: 20 },
@@ -16,6 +21,15 @@ class App extends Component {
 		otherState: 'some other value',
 		showPersons: false,
 	};
+
+	static getDerivedStateFromProps(props, state) {
+		console.log('getDerivedStateFromProps [App.js]', props);
+		return state;
+	}
+
+	componentDidMount() {
+		console.log('[App.js] componentdidmount');
+	}
 
 	switchNameHandler = (name) => {
 		// console.log('thss', this);
@@ -59,56 +73,26 @@ class App extends Component {
 	};
 
 	render() {
-		const style = {
-			backgroundColor: 'green',
-			color: 'white',
-			font: 'inherit',
-			border: '1px solid blue',
-			padding: '0.8rem',
-			cursor: 'pointer',
-		};
-
+		console.log('[App.js] render');
 		let persons = null;
 		if (this.state.showPersons) {
 			persons = (
-				<div>
-					{this.state.persons.map((persons, index) => {
-						return (
-							<ErrrorBoundary key={persons.id}>
-								<Person
-									click={() => this.deletePersonHandler(index)}
-									name={persons.name}
-									age={persons.age}
-									changed={(event) => this.nameChangeHandler(event, persons.id)}
-								/>
-							</ErrrorBoundary>
-						);
-					})}
-				</div>
+				<Persons
+					persons={this.state.persons}
+					clicked={this.deletePersonHandler}
+					changed={this.nameChangeHandler}
+				/>
 			);
-
-			style.backgroundColor = 'red';
 		}
 
 		//let classes = ['red', 'bold'].join(' ');
 
-		let classes = [];
-
-		if (this.state.persons.length <= 2) {
-			classes.push('red');
-		}
-
-		if (this.state.persons.length <= 1) {
-			classes.push('bold');
-		}
-
 		return (
 			<div className='App'>
-				<h1>HI</h1>
-				<p className={classes.join(' ')}>This is really working</p>
-				<button style={style} onClick={this.togglePersonHandler}>
-					Toggle Person
-				</button>
+				<Cockpit
+					persons={this.state.persons}
+					clicked={this.togglePersonHandler}
+				/>
 				{persons}
 			</div>
 		);
