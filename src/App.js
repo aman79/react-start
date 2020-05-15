@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
+import ErrrorBoundary from './ErrorBoundary/ErrrorBoundary';
 
 class App extends Component {
 	//State is managed inside the component
@@ -58,29 +59,56 @@ class App extends Component {
 	};
 
 	render() {
+		const style = {
+			backgroundColor: 'green',
+			color: 'white',
+			font: 'inherit',
+			border: '1px solid blue',
+			padding: '0.8rem',
+			cursor: 'pointer',
+		};
+
 		let persons = null;
 		if (this.state.showPersons) {
 			persons = (
 				<div>
 					{this.state.persons.map((persons, index) => {
 						return (
-							<Person
-								key={persons.id}
-								click={() => this.deletePersonHandler(index)}
-								name={persons.name}
-								age={persons.age}
-								changed={(event) => this.nameChangeHandler(event, persons.id)}
-							/>
+							<ErrrorBoundary key={persons.id}>
+								<Person
+									click={() => this.deletePersonHandler(index)}
+									name={persons.name}
+									age={persons.age}
+									changed={(event) => this.nameChangeHandler(event, persons.id)}
+								/>
+							</ErrrorBoundary>
 						);
 					})}
 				</div>
 			);
+
+			style.backgroundColor = 'red';
+		}
+
+		//let classes = ['red', 'bold'].join(' ');
+
+		let classes = [];
+
+		if (this.state.persons.length <= 2) {
+			classes.push('red');
+		}
+
+		if (this.state.persons.length <= 1) {
+			classes.push('bold');
 		}
 
 		return (
 			<div className='App'>
 				<h1>HI</h1>
-				<button onClick={this.togglePersonHandler}>Toggle Person</button>
+				<p className={classes.join(' ')}>This is really working</p>
+				<button style={style} onClick={this.togglePersonHandler}>
+					Toggle Person
+				</button>
 				{persons}
 			</div>
 		);
