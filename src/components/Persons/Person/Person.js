@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Person.css';
+import Aux from '../../../hoc/Auxiliary';
 
 class Person extends Component {
 	// const random = Math.random();
@@ -10,7 +11,7 @@ class Person extends Component {
 		console.log('[Person.js] rendering...');
 
 		return (
-			<div className='Person'>
+			<Aux>
 				<p onClick={this.props.click}>
 					I m {this.props.name} and {this.props.age} old {this.props.children}
 				</p>
@@ -19,7 +20,7 @@ class Person extends Component {
 					onChange={this.props.changed}
 					value={this.props.name}
 				/>
-			</div>
+			</Aux>
 		);
 	}
 }

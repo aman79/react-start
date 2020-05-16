@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './Cockpit.css';
 
 const Cockpit = (props) => {
+	useEffect(() => {
+		// componeneDidmount +  componentDidupadte in one hook
+		console.log('[Cockpit.js] useEffect ');
+
+		setTimeout(() => {
+			alert('alert');
+		}, 1000);
+		return () => {
+			console.log('cleanup of useeffect');
+		};
+	}, []);
+
+	useEffect(() => {
+		console.log('[Cockpit.js] 2 useEffect ');
+
+		return () => {
+			console.log('cleanup of2 useeffect');
+		};
+	});
+
 	const style = {
 		backgroundColor: 'green',
 		color: 'white',
